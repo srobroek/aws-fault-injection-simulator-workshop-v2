@@ -1,0 +1,20 @@
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Effect": "Allow",
+      "Principal": {
+        "AWS": "arn:aws:iam::054037132650:root"
+      },
+      "Action": "sts:AssumeRole",
+      "Condition": {
+        "StringLike": {
+          "sts:ExternalId": "arn:aws:fis:eu-west-1:054037132650:experiment/*"
+        },
+        "ArnEquals": {
+          "aws:PrincipalArn": "arn:aws:iam::054037132650:role/fis-role"
+        }
+      }
+    }
+  ]
+}
