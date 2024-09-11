@@ -9,7 +9,6 @@ import * as apigw from 'aws-cdk-lib/aws-apigateway';
 import { Tracing } from 'aws-cdk-lib/aws-lambda';
 import * as ssm from 'aws-cdk-lib/aws-ssm';
 import { Construct } from 'constructs'
-import {Tags} from "@aws-cdk/core"
 
 
 export class PetAdoptionsStepFn extends Construct {
@@ -84,6 +83,6 @@ export class PetAdoptionsStepFn extends Construct {
     });
     pythonFn.addEnvironment("AWS_LAMBDA_EXEC_WRAPPER", "/opt/otel-instrument")
     return pythonFn;
-    Tags.of(pythonFn).add
+
   }
 }

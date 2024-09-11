@@ -4,6 +4,7 @@ import { Services } from '../lib/services';
 import { Applications } from '../lib/applications';
 //import { EKSPetsite } from '../lib/ekspetsite'
 import { App, Tags, Aspects, Tag, IAspect } from 'aws-cdk-lib';
+import { IConstruct } from 'constructs';
 import { AwsSolutionsChecks } from 'cdk-nag';
 import { FisServerless } from '../lib/fis_serverless';
 import { Observability } from '../lib/observability'
@@ -46,7 +47,7 @@ const load_testing = new LoadTesting(app, "LoadTesting", {
 //Walk across all resources to tag them with a random uuid flag.
 // We will overwrite this later in the specific resource
 
-class UuidTagger implements iAspect {
+class UuidTagger implements IAspect {
     visit(node: IConstruct) {
         new Tag("flag", uuid() ).visit(node)}
     }

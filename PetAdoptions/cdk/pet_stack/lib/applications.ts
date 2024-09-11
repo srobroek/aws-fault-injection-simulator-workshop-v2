@@ -8,7 +8,6 @@ import { readFileSync } from 'fs';
 import { Construct } from 'constructs'
 import { ContainerImageBuilderProps, ContainerImageBuilder } from './common/container-image-builder'
 import { PetAdoptionsHistory } from './applications/pet-adoptions-history-application'
-import {Tags} from "@aws-cdk/core"
 
 
 export class Applications extends Stack {
@@ -28,7 +27,6 @@ export class Applications extends Stack {
             clusterName: 'PetSite',
             kubectlRoleArn: roleArn,
         });
-        new cdk.Tag
 
 
 
