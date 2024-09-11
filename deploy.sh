@@ -22,6 +22,7 @@ test -n "$AWS_REGION" && echo AWS_REGION is "$AWS_REGION" || exit
 
 export CDK_DEFAULT_ACCOUNT=$ACCOUNT_ID
 export CDK_DEFAULT_REGION=$AWS_REGION
+aws configure set default.region $AWS_REGION
 EKS_ADMIN_ARN=arn:aws:iam::$ACCOUNT_ID:role/Admin
 #update the EKS ADMIN role to studio participant
 CONSOLE_ROLE_ARN=$EKS_ADMIN_ARN
@@ -45,7 +46,7 @@ aws iam detach-role-policy --policy-arn arn:aws:iam::aws:policy/AdministratorAcc
 aws eks update-kubeconfig --name PetSite --region $AWS_REGION
 
 
-kubectl apply -f config/eks-rbac.yaml
+kubectl apply -f eks-rbac.yaml
 eksctl create iamidentitymapping --arn arn:aws:iam::$ACCOUNT_ID:role/fis-multiaccount --username fis-experiment --cluster PetSite --region=$AWS_REGION
 
 #TODO add permissions to restrict access to various services
