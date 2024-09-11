@@ -1,4 +1,11 @@
 #!/bin/bash
+
+#prechecks
+
+test -n "$AWS_ACCESS_KEY_ID" || echo "AWS_ACCESS_KEY_ID is not set"
+test -n "$AWS_SECRET_ACCESS_KEY" || echo "AWS_SECRET_ACCESS_KEY is not set"
+test -n "$AWS_SESSION_TOKEN" || echo "AWS_SESSION_TOKEN is not set"
+
 sudo yum install git docker nodejs -y
 sudo curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
 sudo chmod +x kubectl
