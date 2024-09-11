@@ -4,6 +4,8 @@ sudo curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/
 sudo chmod +x kubectl
 sudo mv kubectl /usr/local/bin
 
+sudo usermod -aG docker ec2-user
+
 sudo npm install -g aws-cdk
 git clone https://github.com/srobroek/aws-fault-injection-simulator-workshop-v2
 sudo service docker start
@@ -13,7 +15,9 @@ npm install
 
 
 
-
+newgrp docker
+rm -vf ${HOME}/.aws/credentials
+rm -vf ${HOME}/.aws/config
 export ACCOUNT_ID=$(aws sts get-caller-identity --output text --query Account)
 TOKEN=$(curl -X PUT "http://169.254.169.254/latest/api/token" -H "X-aws-ec2-metadata-token-ttl-seconds: 3600")
 AWS_REGION=$(curl -H "X-aws-ec2-metadata-token: $TOKEN" http://169.254.169.254/latest/meta-data/placement/region)
@@ -22,14 +26,14 @@ test -n "$AWS_REGION" && echo AWS_REGION is "$AWS_REGION" || exit
 
 export CDK_DEFAULT_ACCOUNT=$ACCOUNT_ID
 export CDK_DEFAULT_REGION=$AWS_REGION
-aws configure set default.region $AWS_REGION
+
 EKS_ADMIN_ARN=arn:aws:iam::$ACCOUNT_ID:role/Admin
 #update the EKS ADMIN role to studio participant
 CONSOLE_ROLE_ARN=$EKS_ADMIN_ARN
 
 
-sudo cdk bootstrap
-sudo cdk deploy --context admin_role="$EKS_ADMIN_ARN" Services --context dashboard_role_arn="$CONSOLE_ROLE_ARN" --require-approval never
+cdk bootstrap
+cdk deploy --context admin_role="$EKS_ADMIN_ARN" Services --context dashboard_role_arn="$CONSOLE_ROLE_ARN" --require-approval never
 export NO_PREBUILT_LAMBDA=1  && sudo cdk deploy Applications --require-approval never
 
 cd ~/aws-fault-injection-simulator-workshop-v2 || exit
