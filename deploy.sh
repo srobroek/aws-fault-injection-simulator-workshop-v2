@@ -1,5 +1,9 @@
 #!/bin/bash
-sudo yum install git docker nodejs kubectl
+sudo yum install git docker nodejs
+sudo curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
+sudo chmod +x kubectl
+sudo mv kubectl /usr/local/bin
+
 sudo npm install -g aws-cdk
 git clone https://github.com/aws-samples/aws-fault-injection-simulator-workshop-v2
 sudo service docker start
