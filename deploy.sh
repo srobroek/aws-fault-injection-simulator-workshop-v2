@@ -9,7 +9,7 @@ git clone https://github.com/srobroek/aws-fault-injection-simulator-workshop-v2
 sudo service docker start
 cd aws-fault-injection-simulator-workshop-v2/PetAdoptions/cdk/pet_stack || exit
 npm install
-sudo cdk bootstrap
+
 
 
 
@@ -27,6 +27,8 @@ EKS_ADMIN_ARN=arn:aws:iam::$ACCOUNT_ID:role/Admin
 #update the EKS ADMIN role to studio participant
 CONSOLE_ROLE_ARN=$EKS_ADMIN_ARN
 
+
+sudo cdk bootstrap
 sudo cdk deploy --context admin_role="$EKS_ADMIN_ARN" Services --context dashboard_role_arn="$CONSOLE_ROLE_ARN" --require-approval never
 export NO_PREBUILT_LAMBDA=1  && sudo cdk deploy Applications --require-approval never
 
