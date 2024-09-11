@@ -48,7 +48,7 @@ test -n "$AWS_REGION" && echo AWS_REGION is "$AWS_REGION" || exit
 export CDK_DEFAULT_ACCOUNT=$ACCOUNT_ID
 export CDK_DEFAULT_REGION=$AWS_REGION
 
-EKS_ADMIN_ARN=arn:aws:iam::$ACCOUNT_ID:role/Admin
+EKS_ADMIN_ARN=arn:aws:iam::$ACCOUNT_ID:role/WSParticipantRole
 #update the EKS ADMIN role to studio participant
 CONSOLE_ROLE_ARN=$EKS_ADMIN_ARN
 
