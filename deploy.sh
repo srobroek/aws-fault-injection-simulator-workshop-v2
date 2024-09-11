@@ -2,9 +2,11 @@
 
 #prechecks
 
-test -n "$AWS_ACCESS_KEY_ID" || echo "AWS_ACCESS_KEY_ID is not set" && exit
-test -n "$AWS_SECRET_ACCESS_KEY" || echo "AWS_SECRET_ACCESS_KEY is not set" && exit
-test -n "$AWS_SESSION_TOKEN" || echo "AWS_SESSION_TOKEN is not set" && exit
+if [ -z "$AWS_ACCESS_KEY_ID" ] || [ -z "$AWS_SECRET_ACCESS_KEY" ] || [ -z "$AWS_SESSION_TOKEN" ]; then
+    echo "Error: AWS credentials not set. Please set AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY, and AWS_SESSION_TOKEN environment variables."
+    exit 1
+fi
+
 
 sudo yum install git docker nodejs -y
 sudo curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
