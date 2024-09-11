@@ -24,7 +24,7 @@ CONSOLE_ROLE_ARN=$EKS_ADMIN_ARN
 sudo cdk deploy --context admin_role="$EKS_ADMIN_ARN" Services --context dashboard_role_arn="$CONSOLE_ROLE_ARN" --require-approval never
 export NO_PREBUILT_LAMBDA=1  && sudo cdk deploy Applications --require-approval never
 
-
+cd ~/aws-fault-injection-simulator-workshop-v2 || exit
 #create cross account role
 export IAM_ROLE=$(aws iam create-role --role-name fis-multiaccount-role --assume-role-policy-document file://fis-iam-trustpolicy.json)
 aws iam attach-role-policy --policy-arn arn:aws:iam::aws:policy/AdministratorAccess --role-name fis-multiaccount-role
