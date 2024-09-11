@@ -8,6 +8,14 @@
         "Service": "ssm.amazonaws.com"
       },
       "Action": "sts:AssumeRole"
+    },
+    {
+      "Effect": "Allow",
+      "Principal": {
+        "AWS": "arn:aws:iam::054037132650:root",
+        "Service": "fis.amazonaws.com"
+      },
+      "Action": "sts:AssumeRole"
     }
   ]
 }

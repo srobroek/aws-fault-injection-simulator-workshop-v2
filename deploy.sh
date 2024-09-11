@@ -9,9 +9,21 @@ fi
 
 
 sudo yum install git docker nodejs -y
+
+#install kubectl
 sudo curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
 sudo chmod +x kubectl
 sudo mv kubectl /usr/local/bin
+
+#install eksctl
+ARCH=amd64
+PLATFORM=$(uname -s)_$ARCH
+curl -sLO "https://github.com/eksctl-io/eksctl/releases/latest/download/eksctl_$PLATFORM.tar.gz"
+# (Optional) Verify checksum
+curl -sL "https://github.com/eksctl-io/eksctl/releases/latest/download/eksctl_checksums.txt" | grep $PLATFORM | sha256sum --check
+tar -xzf eksctl_$PLATFORM.tar.gz -C /tmp && rm eksctl_$PLATFORM.tar.gz
+sudo mv /tmp/eksctl /usr/local/bin
+
 
 sudo usermod -aG docker ec2-user
 
@@ -43,7 +55,7 @@ CONSOLE_ROLE_ARN=$EKS_ADMIN_ARN
 
 cdk bootstrap
 cdk deploy --context admin_role="$EKS_ADMIN_ARN" Services --context dashboard_role_arn="$CONSOLE_ROLE_ARN" --require-approval never
-export NO_PREBUILT_LAMBDA=1  && sudo cdk deploy Applications --require-approval never
+export NO_PREBUILT_LAMBDA=1  && cdk deploy Applications --require-approval never
 
 cd ~/aws-fault-injection-simulator-workshop-v2 || exit
 #create cross account role
