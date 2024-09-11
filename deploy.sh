@@ -5,7 +5,7 @@ sudo chmod +x kubectl
 sudo mv kubectl /usr/local/bin
 
 sudo npm install -g aws-cdk
-git clone https://github.com/aws-samples/aws-fault-injection-simulator-workshop-v2
+git clone https://github.com/srobroek/aws-fault-injection-simulator-workshop-v2
 sudo service docker start
 cd aws-fault-injection-simulator-workshop-v2/PetAdoptions/cdk/pet_stack || exit
 npm install
