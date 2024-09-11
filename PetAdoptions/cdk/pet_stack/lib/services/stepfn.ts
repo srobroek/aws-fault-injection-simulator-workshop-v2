@@ -9,6 +9,7 @@ import * as apigw from 'aws-cdk-lib/aws-apigateway';
 import { Tracing } from 'aws-cdk-lib/aws-lambda';
 import * as ssm from 'aws-cdk-lib/aws-ssm';
 import { Construct } from 'constructs'
+import {Tags} from "@aws-cdk/core"
 
 
 export class PetAdoptionsStepFn extends Construct {
@@ -39,7 +40,9 @@ export class PetAdoptionsStepFn extends Construct {
 
     const readDynamoDB_Step = new tasks.LambdaInvoke(this, 'ReadDynamoDB', {
       lambdaFunction: this.createStepFnLambda('lambda_step_readDDB', lambdaRole, layers)
+
     });
+
 
     const priceGreaterThan55_Step = new tasks.LambdaInvoke(this, 'PriceGreaterThan55', {
       lambdaFunction: this.createStepFnLambda('lambda_step_priceGreaterThan55', lambdaRole, layers)
@@ -66,6 +69,8 @@ export class PetAdoptionsStepFn extends Construct {
 
   }
 
+
+
   private createStepFnLambda(lambdaFileName: string, lambdaRole: iam.Role, lambdalayers: lambda.ILayerVersion[]) {
     var pythonFn = new pythonlambda.PythonFunction(this, lambdaFileName, {
       entry: './resources/stepfn_lambdas/',
@@ -75,9 +80,10 @@ export class PetAdoptionsStepFn extends Construct {
       runtime: lambda.Runtime.PYTHON_3_9,
       role: lambdaRole,
       layers: lambdalayers,
-      tracing: Tracing.ACTIVE
+      tracing: Tracing.ACTIVE,
     });
     pythonFn.addEnvironment("AWS_LAMBDA_EXEC_WRAPPER", "/opt/otel-instrument")
     return pythonFn;
+    Tags.of(pythonFn).add
   }
 }

@@ -8,6 +8,8 @@ import { readFileSync } from 'fs';
 import { Construct } from 'constructs'
 import { ContainerImageBuilderProps, ContainerImageBuilder } from './common/container-image-builder'
 import { PetAdoptionsHistory } from './applications/pet-adoptions-history-application'
+import {Tags} from "@aws-cdk/core"
+
 
 export class Applications extends Stack {
     constructor(scope: Construct, id: string, props?: StackProps) {
@@ -26,6 +28,10 @@ export class Applications extends Stack {
             clusterName: 'PetSite',
             kubectlRoleArn: roleArn,
         });
+        new cdk.Tag
+
+
+
 
         // Create metrics server
         new eks.HelmChart(this, 'metrics-server', {

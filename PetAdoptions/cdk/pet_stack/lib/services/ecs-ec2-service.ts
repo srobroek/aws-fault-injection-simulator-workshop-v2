@@ -78,6 +78,7 @@ export abstract class EcsEc2Service extends Construct {
         pidMode: ecs.PidMode.TASK,
     });
 
+
     this.taskDefinition.addToExecutionRolePolicy(EcsEc2Service.ExecutionRolePolicy);
     this.taskDefinition.taskRole?.addManagedPolicy(iam.ManagedPolicy.fromManagedPolicyArn(this, 'AmazonECSTaskExecutionRolePolicy', 'arn:aws:iam::aws:policy/service-role/AmazonECSTaskExecutionRolePolicy'));
     this.taskDefinition.taskRole?.addManagedPolicy(iam.ManagedPolicy.fromManagedPolicyArn(this, 'AWSXrayWriteOnlyAccess', 'arn:aws:iam::aws:policy/AWSXrayWriteOnlyAccess'));

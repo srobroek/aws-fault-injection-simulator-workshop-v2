@@ -22,13 +22,19 @@ export NO_PREBUILT_LAMBDA=1  && sudo cdk deploy Applications --require-approval 
 
 
 #create cross account role
-export IAM_ROLE=$(aws iam create-role --role-name fis-multiaccount-role --assume-role-policy-document file://config/fis-iam-trustpolicy.json)
+export IAM_ROLE=$(aws iam create-role --role-name fis-multiaccount-role --assume-role-policy-document file://fis-iam-trustpolicy.json)
 aws iam attach-role-policy --policy-arn arn:aws:iam::aws:policy/AdministratorAccess --role-name fis-multiaccount-role
-export IAM_ROLE=$(aws iam create-role --role-name ec2-multiaccount-role --assume-role-policy-document file://config/ec2-iam-trustpolicy.json)
-aws iam attach-role-policy --policy-arn arn:aws:iam::aws:policy/AdministratorAccess --role-name ec2-multiaccount-role
 
+export TF_ROLE=$(aws iam create-role --role-name terraform-role --assume-role-policy-document file://tf-iam-trustpolicy.json)
+
+aws iam attach-role-policy --policy-arn arn:aws:iam::aws:policy/AdministratorAccess --role-name terraform-role
+
+#remove admin permissions from participant
+aws iam attach-role-policy --policy-arn arn:aws:iam::aws:policy/ReadOnlyAccess --role-name WSParticipantRole
+aws iam detach-role-policy --policy-arn arn:aws:iam::aws:policy/AdministratorAccess --role-name WSParticipantRole
 
 aws eks update-kubeconfig --name PetSite --region $AWS_REGION
+
 
 kubectl apply -f config/eks-rbac.yaml
 eksctl create iamidentitymapping --arn arn:aws:iam::$ACCOUNT_ID:role/fis-multiaccount --username fis-experiment --cluster PetSite --region=$AWS_REGION

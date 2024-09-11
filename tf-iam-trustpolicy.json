@@ -9,7 +9,7 @@
       "Action": "sts:AssumeRole",
       "Condition": {
         "ArnEquals": {
-          "aws:PrincipalArn": "arn:aws:iam::054037132650:role/ec2-role"
+          "aws:PrincipalArn": "arn:aws:iam::054037132650:role/Admin"
         }
       }
     }

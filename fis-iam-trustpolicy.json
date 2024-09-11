@@ -4,17 +4,10 @@
     {
       "Effect": "Allow",
       "Principal": {
-        "AWS": "arn:aws:iam::054037132650:root"
+        "AWS": "arn:aws:iam::054037132650:root",
+        "Service": "ssm.amazonaws.com"
       },
-      "Action": "sts:AssumeRole",
-      "Condition": {
-        "StringLike": {
-          "sts:ExternalId": "arn:aws:fis:eu-west-1:054037132650:experiment/*"
-        },
-        "ArnEquals": {
-          "aws:PrincipalArn": "arn:aws:iam::054037132650:role/fis-role"
-        }
-      }
+      "Action": "sts:AssumeRole"
     }
   ]
 }
