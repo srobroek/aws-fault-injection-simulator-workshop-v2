@@ -29,7 +29,7 @@ sudo usermod -aG docker ec2-user
 
 sudo npm install -g aws-cdk
 #remove if exists so we deploy fresh
-rm -rf aws-fault-injector-simulator-workshop-v2
+rm -rf aws-fault-injection-simulator-workshop-v2
 
 git clone https://github.com/srobroek/aws-fault-injection-simulator-workshop-v2
 sudo service docker start
