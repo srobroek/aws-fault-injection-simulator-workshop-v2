@@ -341,8 +341,8 @@ export class Services extends Stack {
         const cfnTaskDefinition = searchServiceEc2.taskDefinition.node.defaultChild as ecs.CfnTaskDefinition
         cfnTaskDefinition.addPropertyOverride('PropagateTags', 'TASK_DEFINITION')
 
-        const cfnService = searchServiceEc2.service.node.defaultChild as ecs.CfnService
-        cfnService.addPropertyOverride('PropagateTags', 'TASK_DEFINITION')
+/*        const cfnService = searchServiceEc2.service.node.defaultChild as ecs.CfnService
+        cfnService.addPropertyOverride('PropagateTags', 'TASK_DEFINITION')*/
 
         // Traffic Generator task definition.
         const trafficGeneratorService = new TrafficGeneratorService(this, 'traffic-generator-service', {
