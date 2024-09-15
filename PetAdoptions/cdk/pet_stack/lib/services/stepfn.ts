@@ -9,7 +9,7 @@ import * as apigw from 'aws-cdk-lib/aws-apigateway';
 import { Tracing } from 'aws-cdk-lib/aws-lambda';
 import * as ssm from 'aws-cdk-lib/aws-ssm';
 import { Construct } from 'constructs'
-
+import * as cdk from "aws-cdk-lib";
 
 export class PetAdoptionsStepFn extends Construct {
   public readonly stepFn: sfn.StateMachine;
@@ -27,6 +27,7 @@ export class PetAdoptionsStepFn extends Construct {
         iam.ManagedPolicy.fromManagedPolicyArn(this, 'fifth', 'arn:aws:iam::aws:policy/CloudWatchLambdaInsightsExecutionRolePolicy')
       ]
     });
+    
 
     var layerArn = "arn:aws:lambda:" + process.env.CDK_DEFAULT_REGION + ":580247275435:layer:LambdaInsightsExtension:38";
     var layer = lambda.LayerVersion.fromLayerVersionArn(this, `LambdaInsights`, layerArn);
@@ -65,6 +66,11 @@ export class PetAdoptionsStepFn extends Construct {
       tracingEnabled: true,
       timeout: Duration.minutes(5)
     });
+
+    const sfniamRole = this.stepFn.role
+    cdk.Tags.of(sfniamRole).add('flag', '68803259-6815-4b32-a26e-43c857e0dabf')
+
+        
 
   }
 
