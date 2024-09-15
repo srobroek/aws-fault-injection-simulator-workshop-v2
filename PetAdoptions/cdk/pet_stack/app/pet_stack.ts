@@ -3,7 +3,7 @@ import 'source-map-support/register';
 import { Services } from '../lib/services';
 import { Applications } from '../lib/applications';
 //import { EKSPetsite } from '../lib/ekspetsite'
-import { App, Tags, Aspects, Tag, IAspect } from 'aws-cdk-lib';
+import { App, Tags, Aspects, Tag, IAspect, TagManager} from 'aws-cdk-lib';
 import { IConstruct } from 'constructs';
 import { AwsSolutionsChecks } from 'cdk-nag';
 import { FisServerless } from '../lib/fis_serverless';
@@ -44,13 +44,28 @@ const load_testing = new LoadTesting(app, "LoadTesting", {
     region: process.env.CDK_DEFAULT_REGION 
 }});
 
+// add chaos functionality
+
 //Walk across all resources to tag them with a random uuid flag.
 // We will overwrite this later in the specific resource
 
 class UuidTagger implements IAspect {
     visit(node: IConstruct) {
-        new Tag("flag", uuid() ).visit(node)}
+
+        if (TagManager.isTaggable(node)) {
+            const tagManager = TagManager.of(node)
+            const tags = tagManager?.tagValues()
+
+            if(tags && !('flag' in tags )) {
+                tagManager?.setTag('flag', uuid())
+            }
+
+
+        }
+
+
     }
+}
 
 Aspects.of(app).add(new UuidTagger())
 Tags.of(app).add("Workshop","true")

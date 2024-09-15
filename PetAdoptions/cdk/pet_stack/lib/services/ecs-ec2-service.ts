@@ -76,6 +76,7 @@ export abstract class EcsEc2Service extends Construct {
         networkMode: ecs.NetworkMode.AWS_VPC,
         taskRole: taskRole,
         pidMode: ecs.PidMode.TASK,
+
     });
 
 

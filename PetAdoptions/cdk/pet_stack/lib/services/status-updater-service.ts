@@ -3,7 +3,7 @@ import * as lambda from 'aws-cdk-lib/aws-lambda';
 import * as nodejslambda from 'aws-cdk-lib/aws-lambda-nodejs';
 import * as apigw from 'aws-cdk-lib/aws-apigateway';
 import { Construct } from 'constructs'
-
+import * as cdk from "aws-cdk-lib";
 export interface StatusUpdaterServiceProps {
   tableName: string
 }
@@ -50,6 +50,7 @@ export class StatusUpdaterService extends Construct {
           ]
         }
     });
+    cdk.Tags.of(lambdaFunction).add('flag', 'b4a09690-18e3-4392-88ec-b1a9521172b4')
 
     //defines an API Gateway REST API resource backed by our "petstatusupdater" function.
     this.api = new apigw.LambdaRestApi(this, 'PetAdoptionStatusUpdater', {

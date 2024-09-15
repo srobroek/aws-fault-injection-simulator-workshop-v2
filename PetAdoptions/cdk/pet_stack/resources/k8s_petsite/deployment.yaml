@@ -15,6 +15,7 @@ metadata:
   annotations:
     scrape: "true"
     prometheus.io/scrape: "true"
+
 spec:
   ports:
   - port: 80
@@ -39,6 +40,8 @@ spec:
     metadata:
       labels:
         app: petsite
+      annotations:
+        flag: "ff26f547-63bb-44b7-9360-12f3398b3b01"
     spec:
       serviceAccountName: petsite-sa
       containers:
@@ -58,6 +61,7 @@ spec:
         env:
         - name: AWS_XRAY_DAEMON_ADDRESS
           value: xray-service.default:2000
+
 ---
 apiVersion: elbv2.k8s.aws/v1beta1
 kind: TargetGroupBinding

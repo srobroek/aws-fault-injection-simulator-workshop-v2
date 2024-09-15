@@ -68,7 +68,11 @@ export class Services extends Stack {
             publicReadAccess: false,
             autoDeleteObjects: true,
             removalPolicy: RemovalPolicy.DESTROY,
+
         });
+
+        cdk.Tags.of(s3_observabilitypetadoptions).add('flag', '2bb3d308-1390-4f01-abbb-95fa44cd329e' )
+
 
         // Creates the DynamoDB table for Petadoption data
         const dynamodb_petadoption = new ddb.Table(this, 'ddb_petadoption', {
@@ -82,7 +86,9 @@ export class Services extends Stack {
             },
             removalPolicy: RemovalPolicy.DESTROY,
             billingMode: ddb.BillingMode.PAY_PER_REQUEST,
+
         });
+        cdk.Tags.of(dynamodb_petadoption).add('flag', '19c1f41b-c824-4a51-b858-757448aeca3e')
 
         dynamodb_petadoption.metric('WriteThrottleEvents', { statistic: "avg" }).createAlarm(this, 'WriteThrottleEvents-BasicAlarm', {
             threshold: 0,
@@ -121,6 +127,17 @@ export class Services extends Stack {
 
         });
 
+        const natSubnets = theVPC.selectSubnets({
+            subnetType: ec2.SubnetType.PUBLIC
+        })
+
+        natSubnets.subnets.forEach((subnet, index) => {
+            const ngw = subnet.node.tryFindChild('NatGateway') as ec2.CfnNatGateway;
+            if (ngw) {
+                cdk.Tags.of(ngw).add('flag', '2bb3d308-1390-4f01-abbb-95fa44cd329e')
+            }
+        })
+
         // Adding tags to the VPC for AzImpairmentPower
         //cdk.Tags.of(theVPC).add('AzImpairmentPower', 'DisruptSubnet');
 
@@ -158,6 +175,7 @@ export class Services extends Stack {
             //     maxCapacity: rds.AuroraCapacityUnit.ACU_8,
             // }
         });
+        cdk.Tags.of(auroraCluster).add('flag', '5f68b91b-ac4f-4b75-8321-88bf4b72c49d')
 
 
 
@@ -319,6 +337,12 @@ export class Services extends Stack {
             securityGroup: ecsServicesSecurityGroup
         })
         searchServiceEc2.taskDefinition.taskRole?.addToPrincipalPolicy(readSSMParamsPolicy);
+        cdk.Tags.of(searchServiceEc2.taskDefinition).add('flag', '19c1f41b-c824-4a51-b858-757448aeca3e')
+        const cfnTaskDefinition = searchServiceEc2.taskDefinition.node.defaultChild as ecs.CfnTaskDefinition
+        cfnTaskDefinition.addPropertyOverride('PropagateTags', 'TASK_DEFINITION')
+
+        const cfnService = searchServiceEc2.service.node.defaultChild as ecs.CfnService
+        cfnService.addPropertyOverride('PropagateTags', 'TASK_DEFINITION')
 
         // Traffic Generator task definition.
         const trafficGeneratorService = new TrafficGeneratorService(this, 'traffic-generator-service', {
