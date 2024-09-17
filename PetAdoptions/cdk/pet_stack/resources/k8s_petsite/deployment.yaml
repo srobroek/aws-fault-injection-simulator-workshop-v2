@@ -40,8 +40,6 @@ spec:
     metadata:
       labels:
         app: petsite
-      annotations:
-        flag: "ff26f547-63bb-44b7-9360-12f3398b3b01"
     spec:
       serviceAccountName: petsite-sa
       containers:
@@ -55,9 +53,6 @@ spec:
           limits:
             cpu: 800m
             memory: 300Mi
-          requests:
-            cpu: 400m
-            memory: 200Mi
         env:
         - name: AWS_XRAY_DAEMON_ADDRESS
           value: xray-service.default:2000

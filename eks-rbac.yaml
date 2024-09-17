@@ -2,7 +2,7 @@ kind: ServiceAccount
 apiVersion: v1
 metadata:
   namespace: default
-  name: eks-fis-role
+  name: fis-multiaccount-role
 
 ---
 kind: Role
@@ -35,7 +35,7 @@ metadata:
   namespace: default
 subjects:
   - kind: ServiceAccount
-    name: eks-fis-role
+    name: fis-multiaccount-role
     namespace: default
   - apiGroup: rbac.authorization.k8s.io
     kind: User

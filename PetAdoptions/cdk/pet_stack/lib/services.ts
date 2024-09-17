@@ -463,8 +463,11 @@ export class Services extends Stack {
             machineImage: eksOptimizedImage,
             instanceType: new ec2.InstanceType('m5.xlarge'),
             userData: userData,
+            
             //   role: eksPetSiteRole,
         });
+        
+        cdk.Tags.of(eksPetSitelt).add('flag', 'ff26f547-63bb-44b7-9360-12f3398b3b01')
 
         // Adding ClusterNodeGroupRole
         // Add SSM Permissions to the node role and EKS Node required permissions

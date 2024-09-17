@@ -16,6 +16,16 @@
         "Service": "fis.amazonaws.com"
       },
       "Action": "sts:AssumeRole"
+    },
+    {
+      "Effect": "Allow",
+      "Principal": {
+        "Service": [
+          "fis.amazonaws.com"
+        ]
+      },
+      "Action": "sts:AssumeRole"
     }
   ]
 }
+
