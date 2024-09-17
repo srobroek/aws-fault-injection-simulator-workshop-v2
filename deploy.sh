@@ -59,6 +59,9 @@ CONSOLE_ROLE_ARN=$EKS_ADMIN_ARN
 cdk bootstrap
 cdk deploy --context admin_role="$EKS_ADMIN_ARN" Services --context dashboard_role_arn="$CONSOLE_ROLE_ARN" --require-approval never
 export NO_PREBUILT_LAMBDA=1  && cdk deploy Applications --require-approval never
+cdk deploy Observability --require-approval never
+cdk deploy LoadTesting --require-approval never
+cdk deploy FisServerless --require-approval never
 
 cd ~/aws-fault-injection-simulator-workshop-v2 || exit
 #create cross account role
@@ -70,13 +73,13 @@ export TF_ROLE=$(aws iam create-role --role-name terraform-role --assume-role-po
 aws iam attach-role-policy --policy-arn arn:aws:iam::aws:policy/AdministratorAccess --role-name terraform-role
 
 #remove admin permissions from participant
-aws iam attach-role-policy --policy-arn arn:aws:iam::aws:policy/ReadOnlyAccess --role-name WSParticipantRole
-aws iam detach-role-policy --policy-arn arn:aws:iam::aws:policy/AdministratorAccess --role-name WSParticipantRole
+#aws iam attach-role-policy --policy-arn arn:aws:iam::aws:policy/ReadOnlyAccess --role-name WSParticipantRole
+#aws iam detach-role-policy --policy-arn arn:aws:iam::aws:policy/AdministratorAccess --role-name WSParticipantRole
 
 aws eks update-kubeconfig --name PetSite --region $AWS_REGION
 
 
 kubectl apply -f eks-rbac.yaml
-eksctl create iamidentitymapping --arn arn:aws:iam::$ACCOUNT_ID:role/fis-multiaccount --username fis-experiment --cluster PetSite --region=$AWS_REGION
+eksctl create iamidentitymapping --arn arn:aws:iam::$ACCOUNT_ID:role/fis-multiaccount-role --username fis-experiment --cluster PetSite --region=$AWS_REGION
 
 #TODO add permissions to restrict access to various services

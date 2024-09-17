@@ -213,6 +213,7 @@ export abstract class EcsEc2Service extends Construct {
         publicLoadBalancer: true,
         desiredCount: props.desiredTaskCount,
         listenerPort: 80,
+        propagateTags: ecs.PropagatedTagSource.SERVICE
 
       })
 

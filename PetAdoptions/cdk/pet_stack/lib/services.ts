@@ -337,11 +337,14 @@ export class Services extends Stack {
             securityGroup: ecsServicesSecurityGroup
         })
         searchServiceEc2.taskDefinition.taskRole?.addToPrincipalPolicy(readSSMParamsPolicy);
-        cdk.Tags.of(searchServiceEc2.taskDefinition).add('flag', '19c1f41b-c824-4a51-b858-757448aeca3e')
+        //cdk.Tags.of(searchServiceEc2.taskDefinition).add('flag', '19c1f41b-c824-4a51-b858-757448aeca3e')
+
         //const cfnTaskDefinition = searchServiceEc2.taskDefinition.node.defaultChild as ecs.CfnTaskDefinition
         //cfnTaskDefinition.addPropertyOverride('PropagateTags', 'TASK_DEFINITION')
 
         const cfnService = searchServiceEc2.service.node.findChild("Service") as ecs.CfnService
+        cdk.Tags.of(searchServiceEc2.service).add('flag', '19c1f41b-c824-4a51-b858-757448aeca3e')
+        cdk.Tags.of(searchServiceEc2.service).add('Service', 'Petsearch-ECS')
         cfnService.propagateTags = 'TASK_DEFINITION'
 /*        const cfnService = searchServiceEc2.service.node.defaultChild as ecs.CfnService
         cfnService.addPropertyOverride('PropagateTags', 'TASK_DEFINITION')*/
