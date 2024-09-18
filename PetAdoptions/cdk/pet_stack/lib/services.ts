@@ -258,10 +258,7 @@ export class Services extends Stack {
             securityGroup: ecsServicesSecurityGroup
         });
         listAdoptionsService.taskDefinition.taskRole?.addToPrincipalPolicy(readSSMParamsPolicy);
-        const cfnListAdoptionService = listAdoptionsService.service.node.findChild("Service") as ecs.CfnService
-        cdk.Tags.of(listAdoptionsService.service).add('flag', 'ff26f547-63bb-44b7-9360-12f3398b3b01')
-        cdk.Tags.of(listAdoptionsService.service).add('Service', 'PetListAdoptions-ECS')
-        cfnListAdoptionService.propagateTags = 'TASK_DEFINITION'
+
 
         /*
         const ecsPetSearchCluster = new ecs.Cluster(this, "PetSearch", {
@@ -467,6 +464,7 @@ export class Services extends Stack {
             machineImage: eksOptimizedImage,
             instanceType: new ec2.InstanceType('m5.xlarge'),
             userData: userData,
+
             
             //   role: eksPetSiteRole,
         });
@@ -830,6 +828,11 @@ export class Services extends Stack {
             dashboardName: "PetSite_Cost_Control_Dashboard",
             dashboardBody: costControlDashboardBody
         });
+
+        const cfnListAdoptionService = listAdoptionsService.service.node.findChild("Service") as ecs.CfnService
+
+        cdk.Tags.of(listAdoptionsService.service).add('Service', 'PetListAdoptions-ECS')
+        cfnListAdoptionService.propagateTags = 'TASK_DEFINITION'
 
 
         this.createOuputs(new Map(Object.entries({
