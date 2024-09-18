@@ -3,6 +3,8 @@ apiVersion: v1
 metadata:
   namespace: default
   name: fis-multiaccount-role
+  annotations:
+    eks.amazonaws.com/role-arn: arn:aws:iam::054037132650:role/fis-multiaccount-role
 
 ---
 kind: Role

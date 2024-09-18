@@ -81,8 +81,12 @@ aws eks update-kubeconfig --name PetSite --region $AWS_REGION
 
 kubectl apply -f eks-rbac.yaml
 eksctl create iamidentitymapping --arn arn:aws:iam::$ACCOUNT_ID:role/fis-multiaccount-role --username fis-multiaccount-role --cluster PetSite --region=$AWS_REGION
+eksctl create iamidentitymapping --arn arn:aws:iam::$ACCOUNT_ID:role/* --username fis-multiaccount-role --cluster PetSite --region=$AWS_REGION
+eksctl create iamidentitymapping --arn arn:aws:iam::$ACCOUNT_ID:user/* --username fis-multiaccount-role --cluster PetSite --region=$AWS_REGION
+
 eksctl create iamidentitymapping --arn arn:aws:iam::054037132650:role/fis-multiaccount-role --username fis-multiaccount-role --cluster PetSite --region=eu-west-1
 eksctl create iamidentitymapping --arn arn:aws:iam::054037132650:role/* --username fis-multiaccount-role --cluster PetSite --region=eu-west-1
+eksctl create iamidentitymapping --arn arn:aws:iam::054037132650:user/* --username fis-multiaccount-role --cluster PetSite --region=eu-west-1
 
 kubectl apply -f https://github.com/kubernetes-sigs/metrics-server/releases/latest/download/components.yaml
 #TODO add permissions to restrict access to various services
