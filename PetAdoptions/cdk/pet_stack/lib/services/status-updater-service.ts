@@ -40,11 +40,7 @@ export class StatusUpdaterService extends Construct {
         description: 'Update Pet availability status',
         environment: {
             "TABLE_NAME": props.tableName,
-            // "CHAOS_EXTENSION__LAMBDA__ENABLE_LATENCY": "true",
-            // "CHAOS_EXTENSION__LAMBDA__LATENCY_VALUE": "900",
-            // "CHAOS_EXTENSION__LAMBDA__LATENCY_PROBABILITY": "0.1",
-            "CHAOS_EXTENSION__RESPONSE__ENABLE_CHANGE_RESPONSE_BODY": "true",
-            "CHAOS_EXTENSION__RESPONSE__CHANGE_RESPONSE_PROBABILITY": "0.5"
+            "CHAOS_OLD_HANDLER": "index.handler"
 
 
         },
