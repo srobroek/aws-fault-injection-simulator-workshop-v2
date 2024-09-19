@@ -65,5 +65,6 @@ export class StatusUpdaterService extends Construct {
         }, defaultMethodOptions: {methodResponses: [] }
         //defaultIntegration: new apigw.Integration({ integrationHttpMethod: 'PUT', type: apigw.IntegrationType.AWS })
     });
+    cdk.Tags.of(this.api).add('flag', '68803259-6815-4b32-a26e-43c857e0dabf')
   }
 }

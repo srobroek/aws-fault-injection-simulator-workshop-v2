@@ -126,6 +126,7 @@ export class Services extends Stack {
             maxAzs: 2,
 
         });
+        cdk.Tags.of(theVPC).add('flag','you found the flag!')
 
         const natSubnets = theVPC.selectSubnets({
             subnetType: ec2.SubnetType.PUBLIC
