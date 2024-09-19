@@ -80,7 +80,7 @@ aws eks update-kubeconfig --name PetSite --region $AWS_REGION
 
 
 kubectl apply -f eks-rbac.yaml
-eksctl create iamidentitymapping --arn arn:aws:iam::$ACCOUNT_ID:role/fis-multiaccount-role --username fis-multiaccount-role --cluster PetSite --region=$AWS_REGION
+eksctl create iamidentitymapping --arn arn:aws:iam::$ACCOUNT_ID:role/fis-multiaccount-role --username fis-experiment --cluster PetSite --region=$AWS_REGION
 
 
 kubectl apply -f https://github.com/kubernetes-sigs/metrics-server/releases/latest/download/components.yaml
